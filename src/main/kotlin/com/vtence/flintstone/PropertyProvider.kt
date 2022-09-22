@@ -1,5 +1,5 @@
 package com.vtence.flintstone
 
-fun interface PropertyProvider<T> {
+fun interface PropertyProvider<in T> {
     fun provideTo(collector: PropertyCollector<T>)
 }

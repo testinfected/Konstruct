@@ -26,6 +26,14 @@ class Tool<T>(
                 properties.forEach { it.provideTo(tool) }
             }
         }
+
+        fun <T> an(instantiator: Instantiator<T>, vararg properties: PropertyProvider<T>): Tool<T> {
+            return a(instantiator, *properties)
+        }
+
+        fun <T> some(instantiator: Instantiator<T>, vararg properties: PropertyProvider<T>): Tool<T> {
+            return a(instantiator, *properties)
+        }
     }
 
     override fun <V> with(property: Property<T, V>, value: V): Tool<T> = apply {

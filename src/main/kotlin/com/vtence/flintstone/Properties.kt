@@ -1,7 +1,7 @@
 package com.vtence.flintstone
 
 
-abstract class Property<T, V> {
+abstract class Property<in T, V> {
     abstract infix fun of(value: V): PropertyProvider<T>
 
     companion object {
