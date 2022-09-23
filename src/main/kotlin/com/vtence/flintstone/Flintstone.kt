@@ -13,4 +13,8 @@ object Flintstone {
     fun <T, V> with(property: Property<T, V>, value: V): PropertyProvider<T> {
         return property.of(value)
     }
+
+    fun <T, V> withNull(property: Property<T, V?>): PropertyProvider<T> {
+        return with(property, null)
+    }
 }
