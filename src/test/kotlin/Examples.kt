@@ -2,6 +2,7 @@ package com.vtence.flintstone
 
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
+import com.natpryce.hamkrest.present
 import com.vtence.flintstone.AllenKeyMaker.allenKey
 import com.vtence.flintstone.Flintstone.make
 import com.vtence.flintstone.Flintstone.with
@@ -15,6 +16,9 @@ import com.vtence.flintstone.TapeMaker.tape
 import com.vtence.flintstone.Maker.Companion.a
 import com.vtence.flintstone.Maker.Companion.an
 import com.vtence.flintstone.Maker.Companion.some
+import com.vtence.flintstone.ScrewDriverMaker.head
+import com.vtence.flintstone.ToolBagMaker.toolbag
+import com.vtence.flintstone.ToolBagMaker.tool
 import org.junit.jupiter.api.Test
 
 
@@ -68,22 +72,35 @@ object PliersMaker {
 }
 
 
-enum class Head {
+enum class ScrewHead {
     PHILIPS, FLAT
 }
 
-class ScrewDriver(name: String, color: Color, val head: Head): HouseholdTool(name, color)
+class ScrewDriver(name: String, color: Color, val head: ScrewHead): HouseholdTool(name, color)
 
 object ScrewDriverMaker {
-    val head = property<ScrewDriver, Head>()
-    val flatHead = property<ScrewDriver, Color> { with(head, Head.FLAT).with(color, it) }
+    val head = property<ScrewDriver, ScrewHead>()
+    val flatHead = property<ScrewDriver, Color> { with(head, ScrewHead.FLAT).with(color, it) }
 
     val screwDriver = Factory {
         ScrewDriver(
             name = it.valueOf(name, "no name"),
             color = it.valueOf(color, Color.RED),
-            head = it.valueOf(head, Head.FLAT)
+            head = it.valueOf(head, ScrewHead.FLAT)
         )
+    }
+}
+
+
+class ToolBag(
+    val tool: HouseholdTool?
+)
+
+object ToolBagMaker {
+    val tool = property<ToolBag, HouseholdTool?>()
+
+    val toolbag = Factory {
+        ToolBag(it.valueOf(tool, null))
     }
 }
 
@@ -115,7 +132,14 @@ class ToolsExample {
     fun `how to use composite properties, aka virtual properties`() {
         val flatHeaded = make(a(screwDriver, with(flatHead, Color.YELLOW)))
 
-        assertThat("head", flatHeaded.head, equalTo(Head.FLAT))
+        assertThat("head", flatHeaded.head, equalTo(ScrewHead.FLAT))
         assertThat("color", flatHeaded.color, equalTo(Color.YELLOW))
+    }
+
+    @Test
+    fun `how to use makers to property values`() {
+        val bag = make(a(toolbag, with(tool, a(screwDriver, with(head, ScrewHead.PHILIPS)))))
+
+        assertThat("tool", (bag.tool as? ScrewDriver)?.head, present(equalTo(ScrewHead.PHILIPS)))
     }
 }
