@@ -2,11 +2,13 @@ package com.vtence.flintstone
 
 
 abstract class Property<in T, V> {
-    abstract infix fun of(value: V): PropertyProvider<T>
+    abstract infix fun of(value: Provider<V>): PropertyProvider<T>
+
+    infix fun of(value: V): PropertyProvider<T> = of(SameValueProvider(value))
 
     companion object {
         fun <T, V> property(): Property<T, V> = object: Property<T, V>() {
-            override fun of(value: V): PropertyProvider<T> {
+            override fun of(value: Provider<V>): PropertyProvider<T> {
                 return PropertyProvider {
                     it.with(this, value)
                 }
@@ -14,9 +16,9 @@ abstract class Property<in T, V> {
         }
 
         fun <T, V> property(composite: PropertyCollector<T>.(V) -> Unit): Property<T, V> = object : Property<T, V>() {
-            override fun of(value: V): PropertyProvider<T> {
+            override fun of(value: Provider<V>): PropertyProvider<T> {
                 return PropertyProvider { collector ->
-                    composite(collector, value)
+                    composite(collector, value())
                 }
             }
         }

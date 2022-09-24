@@ -12,9 +12,9 @@ import com.vtence.flintstone.Property.Companion.property
 import com.vtence.flintstone.ScrewDriverMaker.flatHead
 import com.vtence.flintstone.ScrewDriverMaker.screwDriver
 import com.vtence.flintstone.TapeMaker.tape
-import com.vtence.flintstone.Tool.Companion.a
-import com.vtence.flintstone.Tool.Companion.an
-import com.vtence.flintstone.Tool.Companion.some
+import com.vtence.flintstone.Maker.Companion.a
+import com.vtence.flintstone.Maker.Companion.an
+import com.vtence.flintstone.Maker.Companion.some
 import org.junit.jupiter.api.Test
 
 
@@ -37,7 +37,7 @@ object HouseholdToolMaker {
 class Tape(name: String, color: Color) : HouseholdTool(name, color)
 
 object TapeMaker {
-    val tape = Instantiator {
+    val tape = Factory {
         Tape(
             name = it.valueOf(name, "standard tape"),
             color = it.valueOf(color, Color.YELLOW)
@@ -48,7 +48,7 @@ object TapeMaker {
 class AllenKey(name: String, color: Color) : HouseholdTool(name, color)
 
 object AllenKeyMaker {
-    val allenKey = Instantiator {
+    val allenKey = Factory {
         AllenKey(
             name = it.valueOf(name, "standard hex key"),
             color = it.valueOf(color, Color.BLACK)
@@ -59,7 +59,7 @@ object AllenKeyMaker {
 class Pliers(name: String, color: Color) : HouseholdTool(name, color)
 
 object PliersMaker {
-    val pliers = Instantiator {
+    val pliers = Factory {
         Pliers(
             name = it.valueOf(name, "standard pliers"),
             color = it.valueOf(color, Color.BLUE)
@@ -78,7 +78,7 @@ object ScrewDriverMaker {
     val head = property<ScrewDriver, Head>()
     val flatHead = property<ScrewDriver, Color> { with(head, Head.FLAT).with(color, it) }
 
-    val screwDriver = Instantiator {
+    val screwDriver = Factory {
         ScrewDriver(
             name = it.valueOf(name, "no name"),
             color = it.valueOf(color, Color.RED),
