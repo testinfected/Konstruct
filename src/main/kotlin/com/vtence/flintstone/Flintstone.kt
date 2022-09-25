@@ -22,4 +22,9 @@ fun <T, V> havingNull(property: Property<T, V?>): PropertyProvider<T> = withNull
 
 fun <T> theSame(thing: Factory<T>, vararg properties: PropertyProvider<T>): Provider<T> = theSame(Maker.a(thing, *properties))
 
-fun <T> theSame(value: Provider<T>): Provider<T> = SameValueProvider(value())
+fun <T> theSame(value: Provider<T>): Provider<T> = theSame(value())
+
+fun <T> theSame(value: T): Provider<T> = SameValueProvider(value)
+
+
+fun <T> aListOf(vararg values: Provider<T>): Provider<List<T>> = ListOfValuesProvider(values.toList())

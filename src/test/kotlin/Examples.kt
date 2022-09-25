@@ -16,6 +16,10 @@ import com.vtence.flintstone.Maker.Companion.a
 import com.vtence.flintstone.Maker.Companion.an
 import com.vtence.flintstone.Maker.Companion.some
 import com.vtence.flintstone.ScrewDriverMaker.head
+import com.vtence.flintstone.ScrewHead.FLAT
+import com.vtence.flintstone.ScrewHead.PHILIPS
+import com.vtence.flintstone.ToolBagMaker.toolbag
+import com.vtence.flintstone.ToolBagMaker.tools
 import com.vtence.flintstone.ToolHolderMaker.holder
 import com.vtence.flintstone.ToolHolderMaker.tool
 import org.junit.jupiter.api.Test
@@ -103,6 +107,18 @@ object ToolHolderMaker {
     }
 }
 
+class ToolBag(
+    val tools: Iterable<HouseholdTool>
+)
+
+object ToolBagMaker {
+    val tools = property<ToolBag, Iterable<HouseholdTool>>()
+
+    val toolbag = Factory {
+        ToolBag(it.valueOf(tools, emptyList()))
+    }
+}
+
 
 class ToolsExample {
     @Test
@@ -141,15 +157,26 @@ class ToolsExample {
 
     @Test
     fun `how to use makers as property values`() {
-        val holder = make(a(holder, with(tool, a(screwDriver, with(head, ScrewHead.PHILIPS)))))
+        val holder = make(a(holder, with(tool, a(screwDriver, with(head, PHILIPS)))))
 
-        assertThat("tool", (holder.tool as? ScrewDriver)?.head, present(equalTo(ScrewHead.PHILIPS)))
+        assertThat("tool", (holder.tool as? ScrewDriver)?.head, present(equalTo(PHILIPS)))
     }
 
     @Test
     fun `how to specify null property values`() {
-        val bag = make(a(holder, withNull(tool)))
+        val holder = make(a(holder, withNull(tool)))
 
-        assertThat("tool", bag.tool, absent())
+        assertThat("tool", holder.tool, absent())
+    }
+
+    @Test
+    fun `how to specify a list of property values`() {
+        val bag = make(a(toolbag, with(tools, aListOf(
+            a(screwDriver, with(head, FLAT)),
+            a(screwDriver, with(head, PHILIPS))
+        ))))
+
+        val heads = bag.tools.map { (it as? ScrewDriver)?.head }
+        assertThat("heads", heads, equalTo(listOf(FLAT, PHILIPS)))
     }
 }

@@ -6,11 +6,12 @@ import com.natpryce.hamkrest.equalTo
 import com.natpryce.hamkrest.present
 import com.natpryce.hamkrest.sameInstance
 import com.vtence.flintstone.Maker.Companion.a
+import com.vtence.flintstone.Maker.Companion.some
 import com.vtence.flintstone.Property.Companion.property
 import kotlin.test.Test
 
 
-class FlintstoneTest {
+class FlintstoneTests {
     enum class Size {
         S, M, L
     }
@@ -84,39 +85,63 @@ class FlintstoneTest {
         assertThat("null value", thing.description, absent());
     }
 
-    class Holder(
+    class Pocket(
         val content: Thing?,
     )
 
-    val content = property<Holder, Thing?>()
-    val holder = Factory {
-        Holder(it.valueOf(content, null))
+    val content = property<Pocket, Thing?>()
+    val pocket = Factory {
+        Pocket(it.valueOf(content, null))
     }
 
     @Test
     fun `can use factories as property values`() {
-        val bag = make(a(holder, with(content, a(thing, with(name, "ruler")))))
+        val bag = make(a(pocket, with(content, a(thing, with(name, "ruler")))))
 
         assertThat(bag.content?.name, present(equalTo("ruler")))
     }
 
     @Test
     fun `creates new property values anew from factory for every made thing`() {
-        val bag = a(holder, with(content, a(thing, with(name, "tool"))))
+        val pocket = a(pocket, with(content, a(thing, with(name, "tool"))))
 
-        val bag1 = make(bag)
-        val bag2 = make(bag)
+        val left = make(pocket)
+        val right = make(pocket)
 
-        assertThat(bag2.content, !sameInstance(bag1.content))
+        assertThat(right.content, !sameInstance(left.content))
     }
 
     @Test
     fun `can also reuse the same property value instance for every made thing`() {
-        val bag = a(holder, with(content, theSame(thing, with(name, "tool"))))
+        val pocket = a(pocket, with(content, theSame(thing, with(name, "tool"))))
 
-        val bag1 = make(bag)
-        val bag2 = make(bag)
+        val bag1 = make(pocket)
+        val bag2 = make(pocket)
 
         assertThat(bag2.content, sameInstance(bag1.content))
+    }
+
+    class Backpack(
+        val things: List<Thing>,
+    )
+
+    val things = property<Backpack, List<Thing>>()
+    val backpack = Factory {
+        Backpack(it.valueOf(things, emptyList()))
+    }
+
+    @Test
+    fun `creates collection elements anew for every made thing`() {
+        val bag = a(backpack, with(things, aListOf(
+            some(thing, with(name, "socks")),
+            a(thing, with(name, "jacket"))
+        )))
+
+        val duffelBag = bag()
+        val sportBag = bag()
+
+        assertThat("different things", duffelBag.things, !sameInstance(sportBag.things))
+        assertThat("different socks", duffelBag.things.first(), !sameInstance(sportBag.things.first()))
+        assertThat("different jacket", duffelBag.things.last(), !sameInstance(sportBag.things.last()))
     }
 }
