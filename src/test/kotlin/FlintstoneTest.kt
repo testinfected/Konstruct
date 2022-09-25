@@ -88,7 +88,7 @@ class FlintstoneTest {
     }
 
     class Holder(
-        val content: Thing?
+        val content: Thing?,
     )
 
     val content = property<Holder, Thing?>()
@@ -104,12 +104,22 @@ class FlintstoneTest {
     }
 
     @Test
-    fun `makes new property from factory for every made thing`() {
-        val bag = a(holder, with(content, a(thing, with(name, "..."))))
+    fun `creates new property values anew from factory for every made thing`() {
+        val bag = a(holder, with(content, a(thing, with(name, "tool"))))
 
         val bag1 = make(bag)
         val bag2 = make(bag)
 
         assertThat(bag2.content, !sameInstance(bag1.content))
+    }
+
+    @Test
+    fun `can also reuse the same property value instance for every made thing`() {
+        val bag = a(holder, with(content, theSame(thing, with(name, "tool"))))
+
+        val bag1 = make(bag)
+        val bag2 = make(bag)
+
+        assertThat(bag2.content, sameInstance(bag1.content))
     }
 }

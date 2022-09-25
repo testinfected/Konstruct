@@ -137,7 +137,7 @@ class ToolsExample {
     }
 
     @Test
-    fun `how to use makers to property values`() {
+    fun `how to use makers as property values`() {
         val bag = make(a(toolbag, with(tool, a(screwDriver, with(head, ScrewHead.PHILIPS)))))
 
         assertThat("tool", (bag.tool as? ScrewDriver)?.head, present(equalTo(ScrewHead.PHILIPS)))
