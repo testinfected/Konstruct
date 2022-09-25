@@ -24,9 +24,18 @@ fun <T> theSame(thing: Factory<T>, vararg properties: PropertyProvider<T>): Prov
 
 fun <T> theSame(value: Provider<T>): Provider<T> = theSame(value())
 
-fun <T> theSame(value: T): Provider<T> = SameValueProvider(value)
+fun <T> theSame(value: T): Provider<T> = SameValue(value)
 
+
+fun <T> aListOf(vararg values: Provider<T>): Provider<List<T>> = ListOfValues(values.toList())
+
+fun <T> aSetOf(vararg values: Provider<T>): Provider<Set<T>> = SetOfValues(values.toSet())
+
+fun <T : Comparable<T>> aSortedSetOf(vararg values: Provider<T>): Provider<Set<T>> = SortedSetOfValues(values.toSet())
 
 fun <T> theSameListOf(vararg values: Provider<T>): Provider<List<T>> = theSame(aListOf(*values))
 
-fun <T> aListOf(vararg values: Provider<T>): Provider<List<T>> = ListOfValuesProvider(values.toList())
+fun <T> theSameSetOf(vararg values: Provider<T>): Provider<Set<T>> = theSame(aSetOf(*values))
+
+fun <T : Comparable<T>> theSameSortedSetOf(vararg values: Provider<T>): Provider<Set<T>> = theSame(aSortedSetOf(*values))
+

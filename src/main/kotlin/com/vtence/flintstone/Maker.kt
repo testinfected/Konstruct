@@ -45,7 +45,7 @@ class Maker<T>(
         properties[property] = value
     }
 
-    override fun <V> with(property: Property<T, V>, value: V): Maker<T> = with(property, SameValueProvider(value))
+    override fun <V> with(property: Property<T, V>, value: V): Maker<T> = with(property, SameValue(value))
 
     fun with(property: PropertyProvider<T>): Maker<T> = apply {
         property.provideTo(this)

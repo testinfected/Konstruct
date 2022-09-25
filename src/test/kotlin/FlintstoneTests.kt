@@ -122,10 +122,10 @@ class FlintstoneTests {
     }
 
     class Backpack(
-        val things: List<Thing>,
+        val things: Iterable<Thing>,
     )
 
-    val things = property<Backpack, List<Thing>>()
+    val things = property<Backpack, Iterable<Thing>>()
     val backpack = Factory {
         Backpack(it.valueOf(things, emptyList()))
     }
@@ -155,13 +155,12 @@ class FlintstoneTests {
         val bag = a(
             backpack, with(
                 things,
-                aListOf(
+                aSetOf(
                     theSame(thing, with(name, "socks")),
                     theSame(thing, with(name, "jacket"))
                 )
             )
         )
-
 
         val duffelBag = bag()
         val sportBag = bag()
