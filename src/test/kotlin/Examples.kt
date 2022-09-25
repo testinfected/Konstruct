@@ -1,5 +1,6 @@
 package com.vtence.flintstone
 
+import com.natpryce.hamkrest.absent
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import com.natpryce.hamkrest.present
@@ -15,8 +16,8 @@ import com.vtence.flintstone.Maker.Companion.a
 import com.vtence.flintstone.Maker.Companion.an
 import com.vtence.flintstone.Maker.Companion.some
 import com.vtence.flintstone.ScrewDriverMaker.head
-import com.vtence.flintstone.ToolBagMaker.toolbag
-import com.vtence.flintstone.ToolBagMaker.tool
+import com.vtence.flintstone.ToolHolderMaker.holder
+import com.vtence.flintstone.ToolHolderMaker.tool
 import org.junit.jupiter.api.Test
 
 
@@ -90,15 +91,15 @@ object ScrewDriverMaker {
 }
 
 
-class ToolBag(
+class ToolHolder(
     val tool: HouseholdTool?
 )
 
-object ToolBagMaker {
-    val tool = property<ToolBag, HouseholdTool?>()
+object ToolHolderMaker {
+    val tool = property<ToolHolder, HouseholdTool?>()
 
-    val toolbag = Factory {
-        ToolBag(it.valueOf(tool, null))
+    val holder = Factory {
+        ToolHolder(it.valueOf(tool, null))
     }
 }
 
@@ -140,8 +141,15 @@ class ToolsExample {
 
     @Test
     fun `how to use makers as property values`() {
-        val bag = make(a(toolbag, with(tool, a(screwDriver, with(head, ScrewHead.PHILIPS)))))
+        val holder = make(a(holder, with(tool, a(screwDriver, with(head, ScrewHead.PHILIPS)))))
 
-        assertThat("tool", (bag.tool as? ScrewDriver)?.head, present(equalTo(ScrewHead.PHILIPS)))
+        assertThat("tool", (holder.tool as? ScrewDriver)?.head, present(equalTo(ScrewHead.PHILIPS)))
+    }
+
+    @Test
+    fun `how to specify null property values`() {
+        val bag = make(a(holder, withNull(tool)))
+
+        assertThat("tool", bag.tool, absent())
     }
 }
