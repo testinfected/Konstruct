@@ -27,4 +27,6 @@ fun <T> theSame(value: Provider<T>): Provider<T> = theSame(value())
 fun <T> theSame(value: T): Provider<T> = SameValueProvider(value)
 
 
+fun <T> theSameListOf(vararg values: Provider<T>): Provider<List<T>> = theSame(aListOf(*values))
+
 fun <T> aListOf(vararg values: Provider<T>): Provider<List<T>> = ListOfValuesProvider(values.toList())

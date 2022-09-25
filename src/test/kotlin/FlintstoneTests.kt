@@ -132,10 +132,15 @@ class FlintstoneTests {
 
     @Test
     fun `creates collection elements anew for every made thing`() {
-        val bag = a(backpack, with(things, aListOf(
-            some(thing, with(name, "socks")),
-            a(thing, with(name, "jacket"))
-        )))
+        val bag = a(
+            backpack, with(
+                things,
+                aListOf(
+                    some(thing, with(name, "socks")),
+                    a(thing, with(name, "jacket"))
+                )
+            )
+        )
 
         val duffelBag = bag()
         val sportBag = bag()
@@ -143,5 +148,46 @@ class FlintstoneTests {
         assertThat("different things", duffelBag.things, !sameInstance(sportBag.things))
         assertThat("different socks", duffelBag.things.first(), !sameInstance(sportBag.things.first()))
         assertThat("different jacket", duffelBag.things.last(), !sameInstance(sportBag.things.last()))
+    }
+
+    @Test
+    fun `can reuse the same collection elements for every made thing`() {
+        val bag = a(
+            backpack, with(
+                things,
+                aListOf(
+                    theSame(thing, with(name, "socks")),
+                    theSame(thing, with(name, "jacket"))
+                )
+            )
+        )
+
+
+        val duffelBag = bag()
+        val sportBag = bag()
+
+        assertThat("different things", duffelBag.things, !sameInstance(sportBag.things))
+        assertThat("same socks", duffelBag.things.first(), sameInstance(sportBag.things.first()))
+        assertThat("same jacket", duffelBag.things.last(), sameInstance(sportBag.things.last()))
+    }
+
+    @Test
+    fun `can reuse the same collection for every made thing`() {
+        val bag = a(
+            backpack, with(
+                things,
+                theSameListOf(
+                    some(thing, with(name, "socks")),
+                    a(thing, with(name, "jacket"))
+                )
+            )
+        )
+
+        val duffelBag = bag()
+        val sportBag = bag()
+
+        assertThat("same things", duffelBag.things, sameInstance(sportBag.things))
+        assertThat("same socks", duffelBag.things.first(), sameInstance(sportBag.things.first()))
+        assertThat("same jacket", duffelBag.things.last(), sameInstance(sportBag.things.last()))
     }
 }
