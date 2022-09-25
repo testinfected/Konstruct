@@ -189,4 +189,20 @@ class FlintstoneTests {
         assertThat("same socks", duffelBag.things.first(), sameInstance(sportBag.things.first()))
         assertThat("same jacket", duffelBag.things.last(), sameInstance(sportBag.things.last()))
     }
+
+    @Test
+    fun `can share partial definitions between makers`() {
+        val screw = a(thing, with(name, "screw"), with(size, Size.M))
+
+        fun makeScrew(ofSize: Size) = make(screw.but(with(size, ofSize)))
+
+        val mediumScrew = makeScrew(Size.M)
+        val smallScrew = makeScrew(Size.S)
+
+        assertThat("medium screw name", mediumScrew.name, equalTo("screw"))
+        assertThat("small screw name", smallScrew.name, equalTo("screw"))
+
+        assertThat("medium screw size", mediumScrew.size, equalTo(Size.M))
+        assertThat("small screw size", smallScrew.size, equalTo(Size.S))
+    }
 }
