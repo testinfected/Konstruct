@@ -9,12 +9,3 @@ class SameValueProvider<T>(private val value: T) : Provider<T> {
         return value
     }
 }
-
-
-fun <T> theSame(thing: Factory<T>, vararg properties: PropertyProvider<T>): Provider<T> {
-    return theSame(Maker.a(thing, *properties))
-}
-
-fun <T> theSame(value: Provider<T>): Provider<T> {
-    return SameValueProvider(value())
-}

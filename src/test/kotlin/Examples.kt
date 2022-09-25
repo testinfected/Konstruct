@@ -4,8 +4,6 @@ import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import com.natpryce.hamkrest.present
 import com.vtence.flintstone.AllenKeyMaker.allenKey
-import com.vtence.flintstone.Flintstone.make
-import com.vtence.flintstone.Flintstone.with
 import com.vtence.flintstone.HouseholdToolMaker.color
 import com.vtence.flintstone.HouseholdToolMaker.name
 import com.vtence.flintstone.PliersMaker.pliers
@@ -125,7 +123,11 @@ class ToolsExample {
     fun `how to use an alternate syntax`() {
         val pliers = make(some(pliers, with(color, Color.RED)))
 
-        assertThat("color", pliers.color, equalTo(Color.RED))
+        assertThat("pliers color", pliers.color, equalTo(Color.RED))
+
+        val tape = make(a(tape, having(color, Color.BLACK)))
+
+        assertThat("tape color", tape.color, equalTo(Color.BLACK))
     }
 
     @Test
