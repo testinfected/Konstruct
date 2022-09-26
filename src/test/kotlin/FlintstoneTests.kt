@@ -36,8 +36,8 @@ class FlintstoneTests {
 
     val thing: Factory<Thing> = Factory {
         Thing(
-            name = it.valueOf(name, "no name"),
-            size = it.valueOf(size, Size.M),
+            name = it.valueOf(name) ?: "no name",
+            size = it.valueOf(size) ?: Size.M,
             description = it.valueOf(description, "no description")
         )
     }
@@ -98,7 +98,7 @@ class FlintstoneTests {
 
     val content = property<Pocket, Thing?>()
     val pocket = Factory {
-        Pocket(it.valueOf(content, null))
+        Pocket(it.valueOf(content))
     }
 
     @Test
@@ -134,7 +134,7 @@ class FlintstoneTests {
 
     val things = property<Backpack, Iterable<Thing>>()
     val backpack = Factory {
-        Backpack(it.valueOf(things, emptyList()))
+        Backpack(it.valueOf(things) ?: emptyList())
     }
 
     @Test

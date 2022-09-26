@@ -17,12 +17,16 @@ class Maker<T>(
         return factory.create(this)
     }
 
+    override fun <V> valueOf(property: Property<T, V>): V? {
+        return if (property in properties) getValue(property) else null
+    }
+
     override fun <V> valueOf(property: Property<T, V>, defaultValue: V): V {
-        @Suppress("UNCHECKED_CAST")
-        return if (property in properties)
-            properties.getValue(property).invoke() as V
-        else
-            defaultValue
+        return if (property in properties) getValue(property) else defaultValue
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    private fun <V> getValue(property: Property<T, V>) = properties.getValue(property).invoke() as V
 
     }
 
