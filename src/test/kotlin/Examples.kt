@@ -21,8 +21,7 @@ import com.vtence.flintstone.Maker.Companion.a
 import com.vtence.flintstone.Maker.Companion.an
 import com.vtence.flintstone.Maker.Companion.some
 import com.vtence.flintstone.ScrewDriverMaker.head
-import com.vtence.flintstone.ScrewHead.FLAT
-import com.vtence.flintstone.ScrewHead.PHILIPS
+import com.vtence.flintstone.ScrewHead.*
 import com.vtence.flintstone.ToolBagMaker.toolbag
 import com.vtence.flintstone.ToolBagMaker.tools
 import com.vtence.flintstone.ToolHolderMaker.holder
@@ -169,7 +168,7 @@ class ToolsExample {
 
     @Test
     fun `how to specify null property values`() {
-        val holder = make(a(holder, withNull(tool)))
+        val holder = make(a(holder).withNull(tool))
 
         assertThat("tool", holder.tool, absent())
     }

@@ -6,7 +6,10 @@ import java.util.*
 fun interface Provider<out T>: () -> T
 
 
-class SameValue<T>(private val value: T) : Provider<T> {
+object NullValue : SameValue<Nothing?>(null)
+
+
+open class SameValue<T>(private val value: T) : Provider<T> {
     override fun invoke(): T {
         return value
     }

@@ -28,13 +28,13 @@ class Maker<T>(
     @Suppress("UNCHECKED_CAST")
     private fun <V> getValue(property: Property<T, V>) = properties.getValue(property).invoke() as V
 
-    }
-
     override fun <V> with(property: Property<T, V>, value: Provider<V>): Maker<T> = apply {
         properties[property] = value
     }
 
     override fun <V> with(property: Property<T, V>, value: V): Maker<T> = with(property, SameValue(value))
+
+    override fun <V> withNull(property: Property<T, V?>): Maker<T> = with(property, NullValue)
 
     fun with(property: PropertyProvider<T>): Maker<T> = apply {
         property.provideTo(this)

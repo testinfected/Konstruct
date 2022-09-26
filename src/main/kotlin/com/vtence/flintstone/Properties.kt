@@ -7,10 +7,10 @@ abstract class Property<in T, V> {
     infix fun of(value: V): PropertyProvider<T> = of(SameValue(value))
 
     companion object {
-        fun <T, V> property(): Property<T, V> = object: Property<T, V>() {
+        fun <T, V> property(): Property<T, V> = object : Property<T, V>() {
             override fun of(value: Provider<V>): PropertyProvider<T> {
-                return PropertyProvider {
-                    it.with(this, value)
+                return PropertyProvider { collector ->
+                    collector.with(this, value)
                 }
             }
         }
