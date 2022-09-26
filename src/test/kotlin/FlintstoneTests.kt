@@ -5,6 +5,13 @@ import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import com.natpryce.hamkrest.present
 import com.natpryce.hamkrest.sameInstance
+import com.vtence.flintstone.Flintstone.aListOf
+import com.vtence.flintstone.Flintstone.aSetOf
+import com.vtence.flintstone.Flintstone.make
+import com.vtence.flintstone.Flintstone.theSame
+import com.vtence.flintstone.Flintstone.theSameListOf
+import com.vtence.flintstone.Flintstone.with
+import com.vtence.flintstone.Flintstone.withNull
 import com.vtence.flintstone.Maker.Companion.a
 import com.vtence.flintstone.Maker.Companion.some
 import com.vtence.flintstone.Property.Companion.property

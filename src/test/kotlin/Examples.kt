@@ -5,6 +5,11 @@ import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import com.natpryce.hamkrest.present
 import com.vtence.flintstone.AllenKeyMaker.allenKey
+import com.vtence.flintstone.Flintstone.aListOf
+import com.vtence.flintstone.Flintstone.having
+import com.vtence.flintstone.Flintstone.make
+import com.vtence.flintstone.Flintstone.with
+import com.vtence.flintstone.Flintstone.withNull
 import com.vtence.flintstone.HouseholdToolMaker.color
 import com.vtence.flintstone.HouseholdToolMaker.name
 import com.vtence.flintstone.PliersMaker.pliers
@@ -83,13 +88,13 @@ class ScrewDriver(name: String, color: Color, val head: ScrewHead): HouseholdToo
 
 object ScrewDriverMaker {
     val head = property<ScrewDriver, ScrewHead>()
-    val flatHead = property<ScrewDriver, Color> { with(head, ScrewHead.FLAT).with(color, it) }
+    val flatHead = property<ScrewDriver, Color> { with(head, FLAT).with(color, it) }
 
     val screwDriver = Factory {
         ScrewDriver(
             name = it.valueOf(name, "no name"),
             color = it.valueOf(color, Color.RED),
-            head = it.valueOf(head, ScrewHead.FLAT)
+            head = it.valueOf(head, FLAT)
         )
     }
 }
@@ -151,7 +156,7 @@ class ToolsExample {
     fun `how to use composite properties, aka virtual properties`() {
         val flatHeaded = make(a(screwDriver, with(flatHead, Color.YELLOW)))
 
-        assertThat("head", flatHeaded.head, equalTo(ScrewHead.FLAT))
+        assertThat("head", flatHeaded.head, equalTo(FLAT))
         assertThat("color", flatHeaded.color, equalTo(Color.YELLOW))
     }
 
