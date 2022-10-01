@@ -40,20 +40,19 @@ class Maker<T>(
     }
 
     fun but(): Maker<T> = Maker(factory, properties)
+}
 
-    companion object {
-        fun <T> a(thing: Factory<T>, vararg properties: PropertyProvider<T>): Maker<T> {
-            return Maker(thing).also { maker ->
-                properties.forEach { it.provideTo(maker) }
-            }
-        }
 
-        fun <T> an(thing: Factory<T>, vararg properties: PropertyProvider<T>): Maker<T> {
-            return a(thing, *properties)
-        }
-
-        fun <T> some(thing: Factory<T>, vararg properties: PropertyProvider<T>): Maker<T> {
-            return a(thing, *properties)
-        }
+fun <T> a(thing: Factory<T>, vararg properties: PropertyProvider<T>): Maker<T> {
+    return Maker(thing).also { maker ->
+        properties.forEach { it.provideTo(maker) }
     }
+}
+
+fun <T> an(thing: Factory<T>, vararg properties: PropertyProvider<T>): Maker<T> {
+    return a(thing, *properties)
+}
+
+fun <T> some(thing: Factory<T>, vararg properties: PropertyProvider<T>): Maker<T> {
+    return a(thing, *properties)
 }

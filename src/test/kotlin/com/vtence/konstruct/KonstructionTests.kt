@@ -5,16 +5,6 @@ import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import com.natpryce.hamkrest.present
 import com.natpryce.hamkrest.sameInstance
-import com.vtence.konstruct.Konstruct.aListOf
-import com.vtence.konstruct.Konstruct.aSetOf
-import com.vtence.konstruct.Konstruct.make
-import com.vtence.konstruct.Konstruct.theSame
-import com.vtence.konstruct.Konstruct.theSameListOf
-import com.vtence.konstruct.Konstruct.with
-import com.vtence.konstruct.Konstruct.withNull
-import com.vtence.konstruct.Maker.Companion.a
-import com.vtence.konstruct.Maker.Companion.some
-import com.vtence.konstruct.Property.Companion.property
 import kotlin.test.Test
 
 
@@ -32,7 +22,8 @@ class KonstructionTests {
     val name = property<Thing, String>()
     val size = property<Thing, Size>()
     val description = property<Thing, String?>()
-    val small = property<Thing, String> { with(name, it).with(size, Size.S) }
+
+    val small = define<Thing, String> { with(name, it).with(size, Size.S) }
 
     val thing: Factory<Thing> = Factory {
         Thing(
