@@ -1,7 +1,7 @@
-package com.vtence.flintstone
+package com.vtence.konstruct
 
 
-object Flintstone {
+object Konstruct {
     fun <T> make(maker: Provider<T>): T = maker.invoke()
 
     fun <T> make(vararg makers: Provider<T>): List<T> = makers.map { make(it) }

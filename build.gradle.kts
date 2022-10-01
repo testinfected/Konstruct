@@ -38,7 +38,7 @@ java {
 
 publishing {
     publications {
-        create<MavenPublication>("flintstone") {
+        create<MavenPublication>("konstruct") {
             from(components["java"])
 
             infix fun <T> Property<T>.by(value: T) {
@@ -47,8 +47,8 @@ publishing {
 
             pom {
                 name by project.name
-                description by "A tiny library to simplify writing test data builders in Kotlin"
-                url by "https://github.com/testinfected/flinstone"
+                description by "A test utility to make test data in Kotlin"
+                url by "https://github.com/testinfected/konstruct"
 
                 licenses {
                     license {
@@ -68,11 +68,10 @@ publishing {
                 }
 
                 scm {
-                    url by "https://github.com/testinfected/flintstone"
-                    connection by "https://github.com/testinfected/flintstone.git"
-                    developerConnection by "git@github.com:testinfected/flintstone.git"
+                    url by "https://github.com/testinfected/konstruct"
+                    connection by "https://github.com/testinfected/konstruct.git"
+                    developerConnection by "git@github.com:testinfected/konstruct.git"
                 }
-
             }
         }
     }
@@ -86,5 +85,5 @@ nexusPublishing {
 }
 
 signing {
-    sign(publishing.publications["flintstone"])
+    sign(publishing.publications["konstruct"])
 }

@@ -1,3 +1,3 @@
 
-rootProject.name = "flintstone"
+rootProject.name = "konstruct"
 

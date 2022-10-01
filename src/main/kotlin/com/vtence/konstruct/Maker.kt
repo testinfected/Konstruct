@@ -1,9 +1,4 @@
-package com.vtence.flintstone
-
-
-fun interface Factory<T> {
-    fun create(properties: PropertyLookup<T>): T
-}
+package com.vtence.konstruct
 
 
 class Maker<T>(
@@ -14,7 +9,7 @@ class Maker<T>(
     private val properties: MutableMap<Property<T, *>, Provider<*>> = properties.toMutableMap()
 
     override fun invoke(): T {
-        return factory.create(this)
+        return factory.build(this)
     }
 
     override fun <V> valueOf(property: Property<T, V>): V? {

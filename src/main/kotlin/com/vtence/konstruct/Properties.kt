@@ -1,4 +1,4 @@
-package com.vtence.flintstone
+package com.vtence.konstruct
 
 
 abstract class Property<in T, V> {

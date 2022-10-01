@@ -1,2 +1,3 @@
-# Flintstone
-A tiny library to simplify writing test data builders in Kotlin
+# Konstruct
+
+A test utility to make test data in Kotlin.

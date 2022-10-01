@@ -1,4 +1,4 @@
-package com.vtence.flintstone
+package com.vtence.konstruct
 
 interface PropertyCollector<out T> {
 

@@ -1,24 +1,24 @@
-package com.vtence.flintstone
+package com.vtence.konstruct
 
 import com.natpryce.hamkrest.absent
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import com.natpryce.hamkrest.present
 import com.natpryce.hamkrest.sameInstance
-import com.vtence.flintstone.Flintstone.aListOf
-import com.vtence.flintstone.Flintstone.aSetOf
-import com.vtence.flintstone.Flintstone.make
-import com.vtence.flintstone.Flintstone.theSame
-import com.vtence.flintstone.Flintstone.theSameListOf
-import com.vtence.flintstone.Flintstone.with
-import com.vtence.flintstone.Flintstone.withNull
-import com.vtence.flintstone.Maker.Companion.a
-import com.vtence.flintstone.Maker.Companion.some
-import com.vtence.flintstone.Property.Companion.property
+import com.vtence.konstruct.Konstruct.aListOf
+import com.vtence.konstruct.Konstruct.aSetOf
+import com.vtence.konstruct.Konstruct.make
+import com.vtence.konstruct.Konstruct.theSame
+import com.vtence.konstruct.Konstruct.theSameListOf
+import com.vtence.konstruct.Konstruct.with
+import com.vtence.konstruct.Konstruct.withNull
+import com.vtence.konstruct.Maker.Companion.a
+import com.vtence.konstruct.Maker.Companion.some
+import com.vtence.konstruct.Property.Companion.property
 import kotlin.test.Test
 
 
-class FlintstoneTests {
+class KonstructionTests {
     enum class Size {
         S, M, L
     }

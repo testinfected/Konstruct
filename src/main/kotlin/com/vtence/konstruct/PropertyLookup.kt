@@ -1,4 +1,4 @@
-package com.vtence.flintstone
+package com.vtence.konstruct
 
 interface PropertyLookup<T> {
     fun <V> valueOf(property: Property<T, V>): V?
