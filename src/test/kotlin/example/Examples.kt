@@ -52,7 +52,7 @@ class Examples {
 
     @Test
     fun `how to use composite properties, aka virtual properties`() {
-        val flatHeaded = make(a(screwDriver, with(flatHead, Color.YELLOW)))
+        val flatHeaded = make(a(screwDriver).with(flatHead, Color.YELLOW))
 
         assertThat("head", flatHeaded.head, equalTo(FLAT))
         assertThat("color", flatHeaded.color, equalTo(Color.YELLOW))

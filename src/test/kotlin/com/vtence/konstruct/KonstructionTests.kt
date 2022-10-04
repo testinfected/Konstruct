@@ -23,7 +23,7 @@ class KonstructionTests {
     val size = property<Thing, Size>()
     val description = property<Thing, String?>()
 
-    val small = define<Thing, String> { with(name, it).with(size, Size.S) }
+    val small = compose<Thing, String> { with(name, it).with(size, Size.S) }
 
     val thing: Factory<Thing> = Factory {
         Thing(

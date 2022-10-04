@@ -1,7 +1,7 @@
 package example
 
 import com.vtence.konstruct.Factory
-import com.vtence.konstruct.define
+import com.vtence.konstruct.compose
 import com.vtence.konstruct.property
 import example.HouseholdToolMaker.color
 import example.HouseholdToolMaker.name
@@ -64,7 +64,7 @@ class ScrewDriver(name: String, color: Color, val head: ScrewHead): HouseholdToo
 
 object ScrewDriverMaker {
     val head = property<ScrewDriver, ScrewHead>()
-    val flatHead = define<ScrewDriver, Color> { with(head, ScrewHead.FLAT).with(color, it) }
+    val flatHead = compose<ScrewDriver, Color> { with(head, ScrewHead.FLAT).with(color, it) }
 
     val screwDriver = Factory {
         ScrewDriver(

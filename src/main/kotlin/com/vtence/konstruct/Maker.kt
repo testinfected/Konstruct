@@ -24,7 +24,10 @@ class Maker<T>(
     private fun <V> getValue(property: Property<T, V>) = properties.getValue(property).invoke() as V
 
     override fun <V> with(property: Property<T, V>, value: Provider<V>): Maker<T> = apply {
-        properties[property] = value
+        when(property) {
+            is SingleProperty -> properties[property] = value
+            is PropertyComposition -> with(property of value)
+        }
     }
 
     override fun <V> with(property: Property<T, V>, value: V): Maker<T> = with(property, SameValue(value))
