@@ -33,11 +33,3 @@ class SortedSetOfValues<T : Comparable<T>>(private val values: Set<Provider<T>>)
         return values.map { it() }.toSortedSet(Comparator.naturalOrder())
     }
 }
-
-
-fun <T, R> Provider<T>.map(block: (T) -> R): Provider<R> = Provider { block(this()) }
-
-fun <T, R> Provider<T>.flatMap(block: (T) -> Provider<R>): Provider<R> = block(this())
-
-fun <T, R> Provider<T>.flatMap(block: (T) -> Maker<R>): Maker<R> = block(this())
-
