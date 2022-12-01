@@ -64,7 +64,7 @@ class ScrewDriver(name: String, color: Color, val head: ScrewHead): HouseholdToo
 
 object ScrewDriverMaker {
     val head = property<ScrewDriver, ScrewHead>()
-    val flatHead = compose<ScrewDriver, Color> { with(head, ScrewHead.FLAT).with(color, it) }
+    val flatHead = compose { with(head, ScrewHead.FLAT).with(color, it) }
 
     val screwDriver = Factory {
         ScrewDriver(

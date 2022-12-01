@@ -23,7 +23,10 @@ class KonstructionTests {
     val size = property<Thing, Size>()
     val description = property<Thing, String?>()
 
-    val small = compose<Thing, String> { with(name, it).with(size, Size.S) }
+    val small = compose {
+        with(name, it)
+        with(size, Size.S)
+    }
 
     val thing: Factory<Thing> = Factory {
         Thing(
@@ -57,11 +60,10 @@ class KonstructionTests {
     }
 
     @Test
-    fun `acts on many properties at once`() {
-        val hammer = make(a(thing, with(small, "hammer")))
+    fun `can make things with null properties`() {
+        val thing = make(a(thing, withNull(description)))
 
-        assertThat("name", hammer.name, equalTo("hammer"))
-        assertThat("size", hammer.size, equalTo(Size.S))
+        assertThat("null value", thing.description, absent());
     }
 
     @Test
@@ -77,10 +79,11 @@ class KonstructionTests {
     }
 
     @Test
-    fun `can make things with null properties`() {
-        val thing = make(a(thing, withNull(description)))
+    fun `can act on many properties at once`() {
+        val hammer = make(a(thing, with(small, "hammer")))
 
-        assertThat("null value", thing.description, absent());
+        assertThat("name", hammer.name, equalTo("hammer"))
+        assertThat("size", hammer.size, equalTo(Size.S))
     }
 
     class Pocket(
@@ -120,9 +123,9 @@ class KonstructionTests {
     }
 
     @Test
-    fun `computes same property value instance on first access only`() {
+    fun `computes the same property value instance on first access only`() {
         var count = 0
-        val counting = theSame(Provider { count++ } )
+        val counting = theSame { count++ }
 
         assertThat(count, equalTo(0))
         make(counting)
@@ -131,13 +134,48 @@ class KonstructionTests {
         assertThat(count, equalTo(1))
     }
 
+    class ThreeWords(
+        val first: String,
+        val second: String,
+        val third: String,
+    )
+
+    val firstWord = property<ThreeWords, String>()
+    val secondWord = property<ThreeWords, String>()
+    val thirdWord = property<ThreeWords, String>()
+
+    val sameWords = compose { word ->
+        with(firstWord, word)
+        with(secondWord, word)
+        with(thirdWord, word)
+    }
+
+    val wordTriple = Factory {
+        ThreeWords(
+            it[firstWord] ?: "",
+            it[secondWord] ?: "",
+            it[thirdWord] ?: "",
+        )
+    }
+
+    @Test
+    fun `uses the same value instance when acting on many properties at once`() {
+        val names = arrayOf("first word", "second word", "third word").iterator()
+
+        val triple = make(a(wordTriple, with(sameWords, names::next)))
+
+        assertThat("1st word", triple.first, equalTo("first word"))
+        assertThat("2nd word", triple.second, equalTo("first word"))
+        assertThat("3rd word", triple.third, equalTo("first word"))
+    }
+
     class Backpack(
         val things: Iterable<Thing>,
     )
 
     val things = property<Backpack, Iterable<Thing>>()
     val backpack = Factory {
-        Backpack(it.get(things) ?: emptyList())
+        Backpack(it[things] ?: emptyList())
     }
 
     @Test

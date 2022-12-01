@@ -19,12 +19,12 @@ internal class SingleProperty<T, V>: Property<T, V>() {
 fun <T, V> property(): Property<T, V> = SingleProperty()
 
 
-internal class PropertyComposition<T, V>(private val collect: PropertyCollector<T>.(V) -> Unit): Property<T, V>() {
+internal class PropertyComposition<T, V>(private val collect: PropertyCollector<T>.(Provider<V>) -> Unit): Property<T, V>() {
     override fun of(value: Provider<V>): PropertyProvider<T> {
         return PropertyProvider { collector ->
-            collect(collector, value())
+            collect(collector, theSame(value))
         }
     }
 }
 
-fun <T, V> compose(collect: PropertyCollector<T>.(V) -> Unit): Property<T, V> = PropertyComposition(collect)
+fun <T, V> compose(collect: PropertyCollector<T>.(Provider<V>) -> Unit): Property<T, V> = PropertyComposition(collect)
