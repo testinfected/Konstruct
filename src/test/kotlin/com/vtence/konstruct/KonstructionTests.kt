@@ -27,9 +27,9 @@ class KonstructionTests {
 
     val thing: Factory<Thing> = Factory {
         Thing(
-            name = it.valueOf(name) ?: "no name",
-            size = it.valueOf(size) ?: Size.M,
-            description = it.valueOf(description, "no description")
+            name = it[name] ?: "no name",
+            size = it[size] ?: Size.M,
+            description = it.get(description, "no description")
         )
     }
 
@@ -89,7 +89,7 @@ class KonstructionTests {
 
     val content = property<Pocket, Thing?>()
     val pocket = Factory {
-        Pocket(it.valueOf(content))
+        Pocket(it[content])
     }
 
     @Test
@@ -125,7 +125,7 @@ class KonstructionTests {
 
     val things = property<Backpack, Iterable<Thing>>()
     val backpack = Factory {
-        Backpack(it.valueOf(things) ?: emptyList())
+        Backpack(it.get(things) ?: emptyList())
     }
 
     @Test

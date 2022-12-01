@@ -12,11 +12,11 @@ class Maker<T>(
         return factory.build(this)
     }
 
-    override fun <V> valueOf(property: Property<T, V>): V? {
+    override fun <V> get(property: Property<T, V>): V? {
         return if (property in properties) getValue(property) else null
     }
 
-    override fun <V> valueOf(property: Property<T, V>, defaultValue: V): V {
+    override fun <V> get(property: Property<T, V>, defaultValue: V): V {
         return if (property in properties) getValue(property) else defaultValue
     }
 

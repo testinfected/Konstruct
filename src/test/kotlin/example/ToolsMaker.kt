@@ -27,8 +27,8 @@ class Tape(name: String, color: Color) : HouseholdTool(name, color)
 object TapeMaker {
     val tape = Factory {
         Tape(
-            name = it.valueOf(name) ?: "standard tape",
-            color = it.valueOf(color) ?: Color.YELLOW
+            name = it[name] ?: "standard tape",
+            color = it[color] ?: Color.YELLOW
         )
     }
 }
@@ -38,8 +38,8 @@ class AllenKey(name: String, color: Color) : HouseholdTool(name, color)
 object AllenKeyMaker {
     val allenKey = Factory {
         AllenKey(
-            name = it.valueOf(name) ?: "standard hex key",
-            color = it.valueOf(color) ?: Color.BLACK
+            name = it[name] ?: "standard hex key",
+            color = it[color] ?: Color.BLACK
         )
     }
 }
@@ -49,8 +49,8 @@ class Pliers(name: String, color: Color) : HouseholdTool(name, color)
 object PliersMaker {
     val pliers = Factory {
         Pliers(
-            name = it.valueOf(name) ?: "standard pliers",
-            color = it.valueOf(color) ?: Color.BLUE
+            name = it[name] ?: "standard pliers",
+            color = it[color] ?: Color.BLUE
         )
     }
 }
@@ -68,9 +68,9 @@ object ScrewDriverMaker {
 
     val screwDriver = Factory {
         ScrewDriver(
-            name = it.valueOf(name) ?: "no name",
-            color = it.valueOf(color) ?: Color.RED,
-            head = it.valueOf(head) ?: ScrewHead.FLAT
+            name = it[name] ?: "no name",
+            color = it[color] ?: Color.RED,
+            head = it[head] ?: ScrewHead.FLAT
         )
     }
 }
@@ -84,7 +84,7 @@ object ToolHolderMaker {
     val tool = property<ToolHolder, HouseholdTool?>()
 
     val holder = Factory {
-        ToolHolder(it.valueOf(tool))
+        ToolHolder(it[tool])
     }
 }
 
@@ -96,7 +96,7 @@ object ToolBagMaker {
     val tools = property<ToolBag, Iterable<HouseholdTool>>()
 
     val toolbag = Factory {
-        ToolBag(it.valueOf(tools) ?: emptyList())
+        ToolBag(it[tools] ?: emptyList())
     }
 }
 
