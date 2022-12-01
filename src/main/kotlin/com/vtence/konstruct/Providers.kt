@@ -15,6 +15,13 @@ open class SameValue<T>(private val value: T) : Provider<T> {
     }
 }
 
+open class MemoizedValue<T>(value: Provider<T>) : Provider<T> {
+    private val memoize by lazy(value)
+
+    override fun invoke(): T {
+        return memoize
+    }
+}
 
 class ListOfValues<T>(private val values: List<Provider<T>>) : Provider<List<T>> {
     override fun invoke(): List<T> {

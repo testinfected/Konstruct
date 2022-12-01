@@ -119,6 +119,18 @@ class KonstructionTests {
         assertThat(bag2.content, sameInstance(bag1.content))
     }
 
+    @Test
+    fun `computes same property value instance on first access only`() {
+        var count = 0
+        val counting = theSame(Provider { count++ } )
+
+        assertThat(count, equalTo(0))
+        make(counting)
+        assertThat(count, equalTo(1))
+        make(counting)
+        assertThat(count, equalTo(1))
+    }
+
     class Backpack(
         val things: Iterable<Thing>,
     )
