@@ -5,7 +5,10 @@ import java.util.*
 
 fun interface Provider<out T>: () -> T
 
-operator fun <T, R> Provider<T>.invoke(map: T.() -> R): Provider<R> = Provider { map(this()) }
+
+operator fun <T, R> Provider<T>.invoke(property: T.() -> R): Provider<R> = get(property)
+
+infix fun <T, R> Provider<T>.get(property: T.() -> R): Provider<R> = Provider { this().property() }
 
 
 object NullValue : SameValue<Nothing?>(null)
