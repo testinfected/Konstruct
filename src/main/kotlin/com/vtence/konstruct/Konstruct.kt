@@ -28,9 +28,9 @@ fun <T> aSetOf(vararg values: Provider<T>): Provider<Set<T>> = SetOfValues(value
 fun <T : Comparable<T>> aSortedSetOf(vararg values: Provider<T>): Provider<Set<T>> = SortedSetOfValues(values.toSet())
 
 
-fun <T> theSame(value: Provider<T>): Provider<T> = MemoizedValue(value)
+fun <T> the(value: T): Provider<T> = SameValue(value)
 
-fun <T> theSame(value: T): Provider<T> = SameValue(value)
+fun <T> theSame(value: Provider<T>): Provider<T> = MemoizedValue(value)
 
 fun <T> theSame(thing: Factory<T>, vararg properties: PropertyProvider<T>): Provider<T> = theSame(a(thing, *properties))
 
