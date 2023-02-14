@@ -1,10 +1,8 @@
 package com.vtence.konstruct
 
-import com.natpryce.hamkrest.absent
+import com.natpryce.hamkrest.*
 import com.natpryce.hamkrest.assertion.assertThat
-import com.natpryce.hamkrest.equalTo
-import com.natpryce.hamkrest.present
-import com.natpryce.hamkrest.sameInstance
+import java.util.*
 import kotlin.test.Test
 
 
@@ -253,4 +251,19 @@ class KonstructionTests {
         assertThat("medium screw size", mediumScrew.size, equalTo(Size.M))
         assertThat("small screw size", smallScrew.size, equalTo(Size.S))
     }
+
+    @Test
+    fun `shares no state, even when using a single maker`() {
+        val aThing = a(thing)
+        val aScrew = aThing.with(name, "screw")
+        val aHammer = aThing.with(name, "hammer")
+        val aSaw = aThing.with(name, "saw")
+
+        val things = make(aScrew, aHammer, aSaw)
+
+        assertThat("things", things.map { it.name }, containsAll("screw", "hammer", "saw"))
+    }
 }
+
+
+private fun <E> containsAll(vararg elements: E): Matcher<Collection<E>> = Matcher(Collection<E>::containsAll, listOf(*elements))
