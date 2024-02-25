@@ -1,4 +1,4 @@
-package com.vtence.konstruct.examples
+package example
 
 import com.natpryce.hamkrest.absent
 import com.natpryce.hamkrest.assertion.assertThat
@@ -6,10 +6,8 @@ import com.natpryce.hamkrest.equalTo
 import com.natpryce.hamkrest.present
 import com.vtence.konstruct.*
 import example.AllenKeyMaker.allenKey
-import example.Color
 import example.HouseholdToolMaker.color
 import example.PliersMaker.pliers
-import example.ScrewDriver
 import example.ScrewDriverMaker.flatHead
 import example.ScrewDriverMaker.head
 import example.ScrewDriverMaker.screwDriver
@@ -87,5 +85,21 @@ class Examples {
 
         val heads = bag.tools.map { (it as? ScrewDriver)?.head }
         assertThat("heads", heads, equalTo(listOf(FLAT, PHILIPS)))
+    }
+
+    @Test
+    fun `how to use fabricators instead of factories`() {
+        val fruit = make(a(banana).with(banana.ripeness, 0.8f))
+
+        assertThat("ripeness", fruit.ripeness, equalTo(0.8f))
+    }
+
+    @Test
+    fun `an alternate way to use fabricators `() {
+        val fruit = make(a(banana) {
+            with(it.ripeness, 0.8f)
+        })
+
+        assertThat("ripeness", fruit.ripeness, equalTo(0.8f))
     }
 }
