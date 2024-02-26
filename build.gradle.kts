@@ -85,4 +85,6 @@ nexusPublishing {
 
 signing {
     sign(publishing.publications["konstruct"])
+    useGpgCmd()
+    sign(configurations.runtimeElements.get())
 }
