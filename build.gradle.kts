@@ -4,7 +4,7 @@ plugins {
     kotlin("jvm") version "1.7.10"
     `maven-publish`
     signing
-    id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
+    id("io.github.gradle-nexus.publish-plugin") version "1.3.0"
 }
 
 repositories {
@@ -79,8 +79,7 @@ publishing {
 
 nexusPublishing {
     repositories {
-        sonatype {
-        }
+        sonatype ()
     }
 }
 
